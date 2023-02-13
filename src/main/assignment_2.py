@@ -30,11 +30,10 @@ def nevilles_method(x_points, y_points, x):
     return matrix
     
 if __name__ == "__main__":
-    np.set_printoptions(precision=7, suppress=True, linewidth=100)
-    # point setup
     x_points = [3.6,3.8,3.9]
     y_points = [1.675,1.436,1.318]
     approximating_value = 3.7
 
     matrix = nevilles_method(x_points, y_points, approximating_value)
+    np.set_printoptions(precision=7, suppress=True, linewidth=100)
     print(matrix[2,2],sep = '\n\n')
