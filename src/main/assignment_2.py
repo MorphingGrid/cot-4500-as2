@@ -19,9 +19,11 @@ def nevilles_method(x_points, y_points, x):
     for i in range(1, num_of_points):
         for j in range(1, i+1):
             first_multiplication = (x - x_points[i]) * matrix[i-1][j-1]
-            second_multiplication = (x - x_points[i-1]) * matrix[i][j-1]
+            second_multiplication = (x - x_points[i-j]) * matrix[i][j-1]
+            # print(second_multiplication - first_multiplication)
 
-            denominator = x_points[i] - x_points[i-1]
+            denominator = x_points[i] - x_points[i-j]
+            #print(denominator)
 
             # this is the value that we will find in the matrix
             coefficient = (second_multiplication - first_multiplication)/denominator
@@ -85,6 +87,7 @@ def get_approximate_result(matrix, x_points, value):
     return reoccuring_px_result
 
 if __name__ == "__main__":
+    np.set_printoptions(precision=7, suppress=True, linewidth=100)
     
     ##Q1
     x_points = [3.6,3.8,3.9]
@@ -92,7 +95,6 @@ if __name__ == "__main__":
     approximating_value = 3.7
 
     matrix = nevilles_method(x_points, y_points, approximating_value)
-    np.set_printoptions(precision=7, suppress=True, linewidth=100)
     print(matrix[2,2],end = '\n\n')
     
     ##Q2
