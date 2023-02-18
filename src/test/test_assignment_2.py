@@ -36,4 +36,5 @@ if __name__ == "__main__":
 
     matrix = nevilles_method(x_points, y_points, approximating_value)
     np.set_printoptions(precision=7, suppress=True, linewidth=100)
+    print(matrix)
     print(matrix[2,2],sep = '\n\n')
