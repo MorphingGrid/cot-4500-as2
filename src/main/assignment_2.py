@@ -86,6 +86,58 @@ def get_approximate_result(matrix, x_points, value):
     # # final result
     return reoccuring_px_result
 
+"""Using the divided difference method, print out the Hermite polynomial approximation"""
+def apply_div_dif(matrix: np.array):
+    size = len(matrix)
+    for i in range(2, size):
+        for j in range(2, i+2):
+            # skip if value is prefilled (we dont want to accidentally recalculate...)
+            if j >= len(matrix[i]) or matrix[i][j] != 0:
+                continue
+            # get left cell entry
+            left: float = matrix[i][j-1]
+
+            # get diagonal left entry
+            diagonal_left: float = matrix[i-1][j-1]
+
+            # order of numerator is SPECIFIC.
+            numerator: float = left - diagonal_left
+
+            # denominator is current i's x_val minus the starting i's x_val....
+            denominator = matrix[i][0] - matrix[i-(j-1)][0]
+
+            # something save into matrix
+            operation = numerator / denominator
+            matrix[i][j] = operation
+    
+    return matrix
+
+
+def hermite_interpolation():
+    x_points = [3.6, 3.8, 3.9]
+    y_points = [1.675, 1.436, 1.318]
+    slopes = [-1.195, -1.188, -1.182]
+
+    # matrix size changes because of "doubling" up info for hermite 
+    num_of_points = len(x_points)
+    matrix = np.zeros((num_of_points*2, num_of_points*2))
+
+    x_points_double = np.repeat(x_points,2)
+    for x in range(0,matrix.shape[0]):
+        matrix[x][0] = x_points_double[x]
+        
+    y_points_double = np.repeat(y_points,2)
+    for x in range(0,matrix.shape[0]):
+        matrix[x][1] = y_points_double[x]
+        
+    for x in range(1, matrix.shape[0],2): 
+        matrix[x,2] = slopes[x//2]
+        
+
+    filled_matrix = apply_div_dif(matrix)
+    print(filled_matrix)
+
+
 if __name__ == "__main__":
     np.set_printoptions(precision=7, suppress=True, linewidth=100)
     
@@ -108,6 +160,10 @@ if __name__ == "__main__":
     approx = 7.3
     answer = get_approximate_result(divided_table,x_points,approx)
     print(answer, end = '\n\n')
+    
+    #Q4
+    hermite_interpolation()
+    
     
     
     
