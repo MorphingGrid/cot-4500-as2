@@ -135,8 +135,40 @@ def hermite_interpolation():
         
 
     filled_matrix = apply_div_dif(matrix)
-    print(filled_matrix)
+    print(filled_matrix, end = '\n\n')
 
+"""Using cubic spline interpolation, solve for the following using this set of data"""
+
+def cubic_spline(x,y):
+    #Find Matrix A
+    size = len(x)
+    matrix = np.zeros((size,size))
+    matrix[0,0] = 1
+    matrix[size-1,size-1] = 1
+    
+    for i in range(1, size-1):
+        matrix[i, i-1] = x[i] - x[i-1]
+        matrix[i, i] = 2 * (x[i+1] - x[i-1])
+        matrix[i, i+1] = x[i+1] - x[i]
+    
+    print(matrix, end = '\n\n')
+    
+    #Find Vector B
+    matrix1 = np.zeros(size)
+    
+    for i in range(1, size-1):
+        matrix1[i] = 3 * (y[i+1] - y[i]) / (x[i+1] - x[i]) - \
+            3 * (y[i] - y[i-1]) / (x[i] - x[i-1])
+    
+    print(matrix1, end = '\n\n')
+    
+    #Find Vector x
+    matrix_x = np.linalg.solve(matrix,matrix1)
+    
+    print(matrix_x, end = '\n\n')
+    
+    
+    
 
 if __name__ == "__main__":
     np.set_printoptions(precision=7, suppress=True, linewidth=100)
@@ -164,6 +196,10 @@ if __name__ == "__main__":
     #Q4
     hermite_interpolation()
     
+    #Q5
+    x = [2,5,8,10]
+    y = [3,5,7,9]
+    cubic_spline(x,y)
     
     
     
